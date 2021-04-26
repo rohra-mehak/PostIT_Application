@@ -1,26 +1,23 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 # from . import forms as f
-from postIt.forms import RegistrationForm
+from .forms import RegistrationForm
 # from forms import RegistrationForm
+from django.views.generic import ListView, DetailView, CreateView
+from .models import Post
 
 
-def index(request):
-    if request.user.is_authenticated:
-        return render(request, "registration/logout.html")
-# Create your views here.
+class HomeView(ListView):
+    model = Post
+    template_name = 'home.html'
 
 
-def register(response):
-    if response.method == 'POST':
-        form = RegistrationForm(response.POST)
-        print(1)
-        if form.is_valid():
-            print(2)
-            form.save()
-        # return redirect('postIt/index')
-        # return HttpResponse("Hello, world. You're at the POST IT WELCOME PAGE.")
-    else:
-        form = RegistrationForm()
+class PostDetailView(DetailView):
+    model = Post
+    template_name = 'post_details.html'
 
-    return render(response, "register/register.html", {"form": form})
+
+class MakePostView(CreateView):
+    model = Post
+    template_name = 'make_post.html'
+    fields = ('title', 'author', 'category', 'content', 'photo')
