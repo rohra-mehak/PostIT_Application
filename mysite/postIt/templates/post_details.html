@@ -6,14 +6,56 @@
 
 
 {% block content %}
-<h1>{{post.title}} </h1> <h6><span class="badge bg-primary">{{post.category}}</span></h6>
-<small>By: {{post.author}}</small>
-<br/>
-<hr>
-<br/>
-{{ post.content|safe }}
+    <h1>{{post.title}} </h1> <h6><span class="badge bg-primary">{{post.category}}</span></h6>
+    <small>Posted By:
+        <a href="{% url 'show_profile' post.author.profile.id %}">{{post.author}}</a></small>
+    <br/>
+    <hr>
+    <br/>
+    {% if post.photo %}
+        <img src="{{ post.photo.url }}" width=400 height=300>
+    {% endif %}
+    <br/><br/>
+    {{ post.content|safe }}
+    <br/><br/>
+    <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
 
-
+    <br/><br/>
+    <hr>
+    <br/>
+    <form action="{% url 'like_post' post.pk %}" method="POST">
+        {% csrf_token %}
+        {% if user.is_authenticated %}
+            {% if liked %}
+            <button type="submit" name="post_id"
+                    value="{{ post.id }}" class="btn btn-danger
+                    btn-sm">Unlike</button>
+            {% else %}
+            <button type="submit" name="post_id"
+                    value="{{ post.id }}" class="btn btn-primary
+                    btn-sm">Like</button>
+            {% endif %}
+        {% else %}
+            <small><a href="{% url 'login' %}">Login</a> to like</small>
+        {% endif %}
+        - {{total_likes}} Likes
+    </form>
 <br/><br/>
-<a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
+<hr>
+<h1>Comments..</h1>
+{% if not post.comments.all %}
+    No comments yet ...<a href="#">Add One</a>
+{% else %}
+    {% for comment in post.comments.all %}
+        <strong>
+            {{ comment.name }} - {{ comment.create_on }}
+        </strong>
+        <br/>
+        {{ comment.content }}
+        <br/></br>
+    {% endfor %}
+{% endif%}
+<br/>
+<a href="" >Add Comment</a>
+<br/><br/>
 {% endblock %}
