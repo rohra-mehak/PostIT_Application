@@ -30,9 +30,17 @@
                 {% endif %}
               </ul>
               <ul class="navbar-nav ml-auto me-5 mb-lg-1">
+
                   {% if user.is_authenticated %}
+                  <form  class="nav-link" action="{% url 'search_results' %}" method="get">
+                     <input name="q" type="text" placeholder="Search...">
+                      </form>
+
+                  <a  class="nav-link" href="{% url 'favourites' %}" role="button"  aria-expanded="false">
+                            Favourites
+                  </a>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <a  class="nav-link dropdown-toggle" href="#"  id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                               {{user.username}}
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">

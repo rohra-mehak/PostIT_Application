@@ -31,6 +31,8 @@ class Post(models.Model):
     likes = models.ManyToManyField(User, related_name='site_post')
     no_of_likes = models.IntegerField(default=0)
     no_of_dislikes = models.IntegerField(default=0)
+    favourite = models.BooleanField(default=False)
+
 
     def total_likes(self):
         return self.likes.count()
@@ -62,3 +64,6 @@ class Comment(models.Model):
 
     def __str__(self):
         return '%s - %s' % (self.post.title, self.name)
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=(str(self.post.id)))

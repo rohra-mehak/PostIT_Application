@@ -40,11 +40,16 @@
         {% endif %}
         - {{total_likes}} Likes
     </form>
+
+
 <br/><br/>
 <hr>
 <h1>Comments..</h1>
 {% if not post.comments.all %}
-    No comments yet ...<a href="#">Add One</a>
+    No comments yet ...<a href="{% url 'new-comment' post.pk %}">Add One</a>
+
+<br/><br/>
+
 {% else %}
     {% for comment in post.comments.all %}
         <strong>
@@ -56,6 +61,6 @@
     {% endfor %}
 {% endif%}
 <br/>
-<a href="" >Add Comment</a>
+<a href="{% url 'new-comment' post.pk %}" >Add Comment</a>
 <br/><br/>
 {% endblock %}
