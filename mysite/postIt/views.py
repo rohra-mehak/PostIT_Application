@@ -110,12 +110,12 @@ def FavouritesView(request):
     return render(request, 'favourites.html', {'fav_posts': fav_posts})
 
 
-def  SearchResultsView(request):
-        query = request.GET.get('q')
-        print(query)
-        search_posts = Post.objects.filter(
-            Q(title__icontains=query) | Q(content__icontains=query) |
-            Q(category__icontains=query)
-        )
-        print(search_posts)
-        return render(request, 'search_results.html', {'search_posts': search_posts})
+def SearchResultsView(request):
+    query = request.GET.get('q')
+    print(query)
+    search_posts = Post.objects.filter(
+        Q(title__icontains=query) | Q(content__icontains=query) |
+        Q(category__icontains=query)
+    )
+    print(search_posts)
+    return render(request, 'search_results.html', {'search_posts': search_posts})
