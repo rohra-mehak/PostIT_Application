@@ -72,10 +72,9 @@
     <br>
     <br>
 
-</div>
 
 <br/><br/>
- <div class="container">
+</div class="container">
 <hr>
 <h3>Comments</h3>
 {% if not post.comments.all %}
@@ -84,7 +83,7 @@
 <br/><br/>
 
 {% else %}
-     <div>
+     <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
     {% for comment in post.comments.all %}
      <div class="col-md-11 ">
         <strong>
