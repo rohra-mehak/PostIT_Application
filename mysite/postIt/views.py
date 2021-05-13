@@ -3,9 +3,10 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.template.context_processors import request
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.views import generic
 from django.views.generic import ListView, DetailView, CreateView
 from .models import Post, Comment
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, UpdatePostForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
 
@@ -119,3 +120,37 @@ def SearchResultsView(request):
     )
     print(search_posts)
     return render(request, 'search_results.html', {'search_posts': search_posts})
+
+
+def myPostsView(request):
+    my_post_list = Post.objects.filter(author=request.user)
+    print(my_post_list)
+    return render(request, 'my_posts.html', {'my_post_list': my_post_list})
+
+
+def delete_my_post(request, pk):
+    post_to_delete = Post.objects.get(id=request.POST.get('post_id'))
+    post_to_delete.delete()
+    return HttpResponseRedirect(reverse('my_posts'))
+
+
+class UpdatePostView(generic.UpdateView):
+    model = Post
+    form_class = UpdatePostForm
+        # initial={
+        #     'title' : Post.title,
+        #     'category': Post.category ,
+        #     'photo' : Post.photo,
+        #     'content' : Post.content
+        # }
+
+    template_name = 'update_post.html'
+    #
+    def form_valid(self, form):
+        form.instance.post_id = self.kwargs['pk']
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('my_posts')
+
+    # def get_absolute_url(self):
+    #     return reverse('my_posts')
