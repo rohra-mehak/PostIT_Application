@@ -9,6 +9,7 @@ from .models import Post, Comment
 from .forms import PostForm, CommentForm, UpdatePostForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
+from django import template
 
 
 def LikeView(request, pk):
@@ -22,6 +23,9 @@ def LikeView(request, pk):
         liked = True
 
     return HttpResponseRedirect(reverse('post_detail', args=[str(pk)]))
+
+
+
 
 
 # def Favourite(request, pk):
@@ -47,6 +51,7 @@ class HomeView(ListView):
     model = Post
     template_name = 'home.html'
     ordering = ['-created_on']
+
 
 
 class PostDetailView(DetailView):
@@ -134,17 +139,22 @@ def delete_my_post(request, pk):
     return HttpResponseRedirect(reverse('my_posts'))
 
 
+# def myidkview(request):
+#     return render(request, 'idk.html')
+
+
 class UpdatePostView(generic.UpdateView):
     model = Post
     form_class = UpdatePostForm
-        # initial={
-        #     'title' : Post.title,
-        #     'category': Post.category ,
-        #     'photo' : Post.photo,
-        #     'content' : Post.content
-        # }
+    # initial={
+    #     'title' : Post.title,
+    #     'category': Post.category ,
+    #     'photo' : Post.photo,
+    #     'content' : Post.content
+    # }
 
     template_name = 'update_post.html'
+
     #
     def form_valid(self, form):
         form.instance.post_id = self.kwargs['pk']

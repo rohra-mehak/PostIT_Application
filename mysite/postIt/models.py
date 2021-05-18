@@ -61,7 +61,7 @@ class Comment(models.Model):
     name = models.CharField(max_length=255)
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
-    # reply = models.ForeignKey('Comment', on_delete=models.CASCADE, related_name="replies", null=True)
+
 
     def __str__(self):
         return '%s - %s' % (self.post.title, self.name)

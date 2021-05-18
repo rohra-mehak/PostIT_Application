@@ -1,34 +1,145 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Posts , this ain't News </h1>
+{% load my_extras %}
+<!--<h1>Posts , this ain't News </h1>-->
 
+ <main class="my-5">
+    <div class="container">
+      <!--Section: Content-->
+      <section class="text-center">
+        <h1 class="mb-5"><strong>For minds to Explore.</strong></h1>
 
-<ul>
 {% for post in object_list %}
-    <li>
-        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
-            <strong class="d-inline-block mb-2 text-primary">
+          {% if forloop.counter0|divisibleby:2 %}
+        <div class="row">
+<!--            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">-->
+<!--          <div class="col-lg-4 col-md-12 mb-4">-->
+            <div class="col-md-6">
+            <div class="card">
+
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                  {% if post.photo %}
+
+                 <img src="{{ post.photo.url }}" class="img-fluid">
+
+                  {% else %}
+                   <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="img-fluid" />
+<!--                  <a href="#!">-->
+
+                  {% endif %}
+                   </div>
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+                <div>
+                    <strong class="d-inline-block mb-2 text-primary">
                  <a href="{% url 'category' post.category %}">{{post.category}}</a>
-            </strong>
-            <h3 class="mb-0">
-                    {{post.title}}
-            </h3>
-            <div class="mb-1 text-muted">{{post.created_on}}</div>
-            <p class="card-text mb-auto">
-                 {{ post.content|slice:":150"|safe }}
-            </p>
-            <div class="my-2">
-            	<a href ="{% url 'post_detail' post.pk %}" role="button" class="btn btn-primary">Continue reading</a>
+                    </strong>
+                </div>
+
+              <div class="card-body">
+                <h5 class="card-title">{{post.title}}</h5>
+                <p class="card-text">
+                    {{ post.content|slice:":150"|safe }}
+                </p>
+                  <a href ="{% url 'post_detail' post.pk %}" role="button" class="btn btn-primary">Continue reading</a>
+<!--                <a href="#!" class="btn btn-primary">Continue Reading</a>-->
+              </div>
             </div>
-        </div>
-        </div>
-<!--        <a href="{% url 'post_detail' post.pk %}">-->
-<!--        {{post.title}}</a> - <a href="{% url 'category' post.category %}">{{post.category}}</a> - {{post.author}} - {{post.created_on}}-->
-<!--        <br/>-->
-<!--        {{ post.content|slice:":150"|safe }}-->
-    </li>
-{% endfor%}
-</ul>
+             {% with next_post=object_list|next:forloop.counter0 %}
+             {% if next_post %}
+
+<!--            <div class="col-lg-4 col-md-12 mb-4">-->
+             <div class="col-md-6">
+            <div class="card">
+
+              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+                  {% if next_post.photo %}
+
+                 <img src="{{ next_post.photo.url }}" class="img-fluid">
+
+                  {% else %}
+                   <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="img-fluid" />
+<!--                  <a href="#!">-->
+
+                  {% endif %}
+                   </div>
+                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+                </a>
+              </div>
+                <div>
+                    <strong class="d-inline-block mb-2 text-primary">
+                 <a href="{% url 'category' next_post.category %}">{{next_post.category}}</a>
+                    </strong>
+                </div>
+
+              <div class="card-body">
+                <h5 class="card-title">{{next_post.title}}</h5>
+                <p class="card-text">
+                    {{ next_post.content|slice:":150"|safe }}
+                </p>
+                  <a href ="{% url 'post_detail' next_post.pk %}" role="button" class="btn btn-primary">Continue reading</a>
+              </div>
+            </div>
+            {% endif %}
+            {% endwith %}
+          </div>
+          {% endif %}
+          {% endfor %}
+
+      </section>
+      <!--Section: Content-->
+
+<!--      &lt;!&ndash; Pagination &ndash;&gt;-->
+<!--      <nav class="my-4" aria-label="...">-->
+<!--        <ul class="pagination pagination-circle justify-content-center">-->
+<!--          <li class="page-item">-->
+<!--            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>-->
+<!--          </li>-->
+<!--          <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+<!--          <li class="page-item active" aria-current="page">-->
+<!--            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>-->
+<!--          </li>-->
+<!--          <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+<!--          <li class="page-item">-->
+<!--            <a class="page-link" href="#">Next</a>-->
+<!--          </li>-->
+<!--        </ul>-->
+<!--      </nav>-->
+    </div>
+  </main>
+  <!--Main layout-->
+<!--
+-->
+<!--gg-->
+
+
+<!--<ul>-->
+<!--{% for post in object_list %}-->
+<!--    <li>-->
+<!--        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">-->
+<!--        <div class="col p-4 d-flex flex-column position-static">-->
+<!--            <strong class="d-inline-block mb-2 text-primary">-->
+<!--                 <a href="{% url 'category' post.category %}">{{post.category}}</a>-->
+<!--            </strong>-->
+<!--            <h3 class="mb-0">-->
+<!--                    {{post.title}}-->
+<!--            </h3>-->
+<!--            <div class="mb-1 text-muted">{{post.created_on}}</div>-->
+<!--            <p class="card-text mb-auto">-->
+<!--                 {{ post.content|slice:":150"|safe }}-->
+<!--            </p>-->
+<!--            <div class="my-2">-->
+<!--            	<a href ="{% url 'post_detail' post.pk %}" role="button" class="btn btn-primary">Continue reading</a>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        </div>-->
+<!--&lt;!&ndash;        <a href="{% url 'post_detail' post.pk %}">&ndash;&gt;-->
+<!--&lt;!&ndash;        {{post.title}}</a> - <a href="{% url 'category' post.category %}">{{post.category}}</a> - {{post.author}} - {{post.created_on}}&ndash;&gt;-->
+<!--&lt;!&ndash;        <br/>&ndash;&gt;-->
+<!--&lt;!&ndash;        {{ post.content|slice:":150"|safe }}&ndash;&gt;-->
+<!--    </li>-->
+<!--{% endfor%}-->
+<!--</ul>-->
 
 {% endblock %}
