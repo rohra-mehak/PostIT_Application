@@ -3,6 +3,12 @@
 {% load my_extras %}
 <!--<h1>Posts , this ain't News </h1>-->
 
+<style>
+body {
+  background-image: url('/media/background/bgpic4.jpg');
+}
+</style>
+
  <main class="my-5">
     <div class="container">
       <!--Section: Content-->
@@ -10,7 +16,9 @@
         <h1 class="mb-5"><strong>For minds to Explore.</strong></h1>
 
 {% for post in object_list %}
+
           {% if forloop.counter0|divisibleby:2 %}
+
         <div class="row">
 <!--            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">-->
 <!--          <div class="col-lg-4 col-md-12 mb-4">-->
@@ -20,7 +28,7 @@
               <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                   {% if post.photo %}
 
-                 <img src="{{ post.photo.url }}" class="img-fluid">
+                 <img src="{{ post.photo.url }}" class="img-fluid" >
 
                   {% else %}
                    <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="img-fluid" />
@@ -56,7 +64,7 @@
               <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
                   {% if next_post.photo %}
 
-                 <img src="{{ next_post.photo.url }}" class="img-fluid">
+                 <img src="{{ next_post.photo.url }}" class="img-fluid" width=400 height=300>
 
                   {% else %}
                    <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="img-fluid" />
