@@ -27,6 +27,7 @@ class Post(models.Model):
     content = RichTextField(blank=True, null=True)
     # content = models.TextField()
     photo = models.ImageField(null=True, blank=True, upload_to="images/")
+    video_file = models.FileField(null = True, blank = True ,upload_to="videos/")
     created_on = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='site_post')
     no_of_likes = models.IntegerField(default=0)

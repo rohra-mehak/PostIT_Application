@@ -25,9 +25,6 @@ def LikeView(request, pk):
     return HttpResponseRedirect(reverse('post_detail', args=[str(pk)]))
 
 
-
-
-
 # def Favourite(request, pk):
 #     fav = False
 #     if request.POST.get('fav') == '1':
@@ -51,7 +48,6 @@ class HomeView(ListView):
     model = Post
     template_name = 'home.html'
     ordering = ['-created_on']
-
 
 
 class PostDetailView(DetailView):

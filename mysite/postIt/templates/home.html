@@ -15,6 +15,7 @@ body {
       <section class="text-center">
         <h1 class="mb-5"><strong>For minds to Explore.</strong></h1>
 
+
 {% for post in object_list %}
 
           {% if forloop.counter0|divisibleby:2 %}
@@ -26,7 +27,11 @@ body {
             <div class="card">
 
               <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                  {% if post.photo %}
+                  {% if post.video_file %}
+                  <video width="500px" height="500px" controls>
+                  <source src="{{ post.video_file.url }}" type="video/mp4">
+                 </video>
+                  {% elif post.photo %}
 
                  <img src="{{ post.photo.url }}" class="img-fluid" >
 
@@ -62,7 +67,11 @@ body {
             <div class="card">
 
               <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                  {% if next_post.photo %}
+                   {% if next_post.video_file %}
+                  <video width="500px" height="500px" controls>
+                  <source src="{{ next_post.video_file.url }}" type="video/mp4">
+                 </video>
+                  {% elif next_post.photo %}
 
                  <img src="{{ next_post.photo.url }}" class="img-fluid" width=400 height=300>
 

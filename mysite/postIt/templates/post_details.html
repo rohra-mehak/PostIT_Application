@@ -30,8 +30,13 @@
                     {{post.title}}
             </h3>
             <div class="mb-1 text-muted">{{post.created_on}}</div>
-
-                {% if post.photo %}
+                 {% if post.video_file %}
+            <div>
+                  <video width="500px" height="500px" controls>
+                  <source src="{{ post.video_file.url }}" type="video/mp4">
+                 </video>
+                 </div>
+                {% elif post.photo %}
             <div>
         <img src="{{ post.photo.url }}" width=400 height=300>
         </div>

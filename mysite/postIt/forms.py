@@ -19,7 +19,7 @@ class RegistrationForm(UserCreationForm):
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = {'title', 'author', 'category', 'photo', 'content'}
+        fields = {'title', 'author', 'category', 'photo', 'content', 'video_file'}
 
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
@@ -29,6 +29,7 @@ class PostForm(forms.ModelForm):
             'category': forms.Select(attrs={'class': 'form-control'}),
             'content': forms.Textarea(attrs={'class': 'form-control'}),
             'photo': forms.FileInput(attrs={'class': 'form-control'}),
+            'video_file' : forms.FileInput(attrs={'class': 'form-control'}),
         }
 
 
@@ -46,7 +47,7 @@ class CommentForm(forms.ModelForm):
 class UpdatePostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = {'title', 'category' , 'content','photo'}
+        fields = {'title', 'category' , 'content','photo' , 'video_file'}
 
     # def save(self, commit=True):
     #     post =self.instance
