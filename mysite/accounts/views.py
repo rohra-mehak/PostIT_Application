@@ -1,11 +1,31 @@
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import render, get_object_or_404
 from django.views import generic
 from django.urls import reverse_lazy
-from .forms import SignUpForm, EditProfileForm
+from .forms import SignUpForm, EditProfileForm, PasswordUpdateForm, ProfilePageForm
 from django.views.generic import DetailView
 
 # Create your views here.
 from postIt.models import Profile
+
+
+class CreateProfilePageView(generic.CreateView):
+    model = Profile
+    form_class = ProfilePageForm
+    template_name = 'registration/create_profile_page.html'
+    # fields = '__all__'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
+
+
+class EditProfilePageView(generic.UpdateView):
+    model = Profile
+    template_name = "registration/edit_profile_page.html"
+    fields = ['bio', 'profile_pic', ]
+    success_url = reverse_lazy('home')
 
 
 class ProfilePageView(DetailView):
@@ -25,10 +45,20 @@ class UserRegisterView(generic.CreateView):
     success_url = reverse_lazy('login')
 
 
-class UserEditView(generic.CreateView):
+class UserEditView(generic.UpdateView):
     form_class = EditProfileForm
-    template_name = 'registration/edit_profile.html'
+    template_name = 'registration/edit_settings.html'
     success_url = reverse_lazy('home')
 
     def get_object(self):
         return self.request.user
+
+
+class PasswordsChangeView(PasswordChangeView):
+    # form_class = PasswordChangeForm
+    form_class = PasswordUpdateForm
+    success_url = reverse_lazy('password_success')
+
+
+def password_success(request):
+    return render(request, 'registration/password_success.html', {})
