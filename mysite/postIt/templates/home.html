@@ -4,128 +4,100 @@
 <!--<h1>Posts , this ain't News </h1>-->
 
 <style>
-body {
-  background-image: url('/media/background/bgpic4.jpg');
-}
+    body {
+        background-color: #e7f3ff;
+    }
 </style>
 
- <main class="my-5">
+<main class="my-5">
     <div class="container">
-      <!--Section: Content-->
-      <section class="text-center">
-        <h1 class="mb-5"><strong>For minds to Explore.</strong></h1>
+        <!--Section: Content-->
+<!--        <section class="text-center">-->
+            <h1 class="mb-5 text-center"><strong>For minds to Explore.</strong></h1>
 
+            <div class="row infinite-container row-cols-1 row-cols-md-2">
+                {% for post in posts %}
+                <div class="col mb-3 infinite-item">
+                    <div class="card shadow-lg ">
+                        {% if post.video_file %}
+                            <video class="card-img-top" width="100%" height="300" controls>
+                                <source src="{{ post.video_file.url }}" type="video/mp4">
+                            </video>
+                            {% elif post.photo %}
 
-{% for post in object_list %}
+                            <img src="{{ post.photo.url }}" class="card-img-top" width="100%" height="300">
 
-          {% if forloop.counter0|divisibleby:2 %}
-
-        <div class="row">
-<!--            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">-->
-<!--          <div class="col-lg-4 col-md-12 mb-4">-->
-            <div class="col-md-6">
-            <div class="card">
-
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                  {% if post.video_file %}
-                  <video width="300px" height="300px" controls>
-                  <source src="{{ post.video_file.url }}" type="video/mp4">
-                 </video>
-                  {% elif post.photo %}
-
-                 <img src="{{ post.photo.url }}" class="img-fluid" >
-
-                  {% else %}
-                   <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="img-fluid" />
-<!--                  <a href="#!">-->
-
-                  {% endif %}
-                   </div>
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                </a>
-              </div>
-                <div>
-                    <strong class="d-inline-block mb-2 text-primary">
-                 <a href="{% url 'category' post.category %}">{{post.category}}</a>
-                    </strong>
+                            {% else %}
+                            <svg class="bd-placeholder-img card-img-top" width="100%" height="300"
+                                 xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice"
+                                 focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                                <title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/>
+                                <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
+                        {% endif %}
+                        <div class="card-body">
+                            <strong><a class="d-inline-block mb-2 text-success" href="{% url 'category' post.category %}">{{post.category}}</a></strong>
+                            <h3 class="card-title mb-0">{{post.title}}</h3>
+                            <div class="mb-1 text-muted">Posted by {{post.author}} on {{post.created_on|date:"M d, Y"}}</div>
+                            <p class="card-text">{{ post.content|slice:":200"|safe }} </p>
+                            <a href="{% url 'post_detail' post.pk %}" type="button" class="btn btn-primary">Continue reading</a>
+                        </div>
+                    </div>
                 </div>
-
-              <div class="card-body">
-                <h5 class="card-title">{{post.title}}</h5>
-                <p class="card-text">
-                    {{ post.content|slice:":150"|safe }}
-                </p>
-                  <a href ="{% url 'post_detail' post.pk %}" role="button" class="btn btn-primary">Continue reading</a>
-<!--                <a href="#!" class="btn btn-primary">Continue Reading</a>-->
-              </div>
+                {% endfor %}
             </div>
-             {% with next_post=object_list|next:forloop.counter0 %}
-             {% if next_post %}
-
-<!--            <div class="col-lg-4 col-md-12 mb-4">-->
-             <div class="col-md-6">
-            <div class="card">
-
-              <div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
-                   {% if next_post.video_file %}
-                  <video width="300px" height="300px" controls>
-                  <source src="{{ next_post.video_file.url }}" type="video/mp4">
-                 </video>
-                  {% elif next_post.photo %}
-
-                 <img src="{{ next_post.photo.url }}" class="img-fluid" width=400 height=300>
-
-                  {% else %}
-                   <img src="https://mdbootstrap.com/img/new/standard/nature/184.jpg" class="img-fluid" />
-<!--                  <a href="#!">-->
-
-                  {% endif %}
-                   </div>
-                  <div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
-                </a>
-              </div>
-                <div>
-                    <strong class="d-inline-block mb-2 text-primary">
-                 <a href="{% url 'category' next_post.category %}">{{next_post.category}}</a>
-                    </strong>
-                </div>
-
-              <div class="card-body">
-                <h5 class="card-title">{{next_post.title}}</h5>
-                <p class="card-text">
-                    {{ next_post.content|slice:":150"|safe }}
-                </p>
-                  <a href ="{% url 'post_detail' next_post.pk %}" role="button" class="btn btn-primary">Continue reading</a>
-              </div>
-            </div>
+            {% if page_obj.has_next %}
+            <a class="infinite-more-link" href="?page={{ page_obj.next_page_number }}"></a>
             {% endif %}
-            {% endwith %}
-          </div>
-          {% endif %}
-          {% endfor %}
+            <div class="d-flex justify-content-center" style="display:none;">
+                <div class="spinner-border" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
+            </div>
+<!--        </section>-->
+        <!--Section: Content-->
 
-      </section>
-      <!--Section: Content-->
-
-<!--      &lt;!&ndash; Pagination &ndash;&gt;-->
-<!--      <nav class="my-4" aria-label="...">-->
-<!--        <ul class="pagination pagination-circle justify-content-center">-->
-<!--          <li class="page-item">-->
-<!--            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>-->
-<!--          </li>-->
-<!--          <li class="page-item"><a class="page-link" href="#">1</a></li>-->
-<!--          <li class="page-item active" aria-current="page">-->
-<!--            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>-->
-<!--          </li>-->
-<!--          <li class="page-item"><a class="page-link" href="#">3</a></li>-->
-<!--          <li class="page-item">-->
-<!--            <a class="page-link" href="#">Next</a>-->
-<!--          </li>-->
-<!--        </ul>-->
-<!--      </nav>-->
+        <!--      &lt;!&ndash; Pagination &ndash;&gt;-->
+        <!--      <nav class="my-4" aria-label="...">-->
+        <!--        <ul class="pagination pagination-circle justify-content-center">-->
+        <!--          <li class="page-item">-->
+        <!--            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>-->
+        <!--          </li>-->
+        <!--          <li class="page-item"><a class="page-link" href="#">1</a></li>-->
+        <!--          <li class="page-item active" aria-current="page">-->
+        <!--            <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>-->
+        <!--          </li>-->
+        <!--          <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+        <!--          <li class="page-item">-->
+        <!--            <a class="page-link" href="#">Next</a>-->
+        <!--          </li>-->
+        <!--        </ul>-->
+        <!--      </nav>-->
     </div>
-  </main>
-  <!--Main layout-->
+
+    <script src="/static/postIt/js/jquery-2.2.4.min.js"></script>
+    <script src="/static/postIt/js/jquery.waypoints.min.js"></script>
+    <script src="/static/postIt/js/infinite.min.js"></script>
+    <script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        handler: function(direction) {
+
+    },
+    offset: 'bottom-in-view',
+
+    onBeforePageLoad: function () {
+    $('.spinner-border').show();
+    },
+    onAfterPageLoad: function () {
+    $('.spinner-border').hide();
+    }
+
+    });
+    </script>
+</main>
+
+
+<!--Main layout-->
 <!--
 -->
 <!--gg-->

@@ -12,9 +12,8 @@
     <h1>New Comment</h1>
     <br/><br/>
     <div class="form-group">
-        <form method="POST" enctype="multipart/form-data">
+        <form method="POST">
             {% csrf_token %}
-             {{ form.media }}
              {{ form.as_p }}
 <!--                <script>-->
 <!--               var id = url.substring(url.lastIndexOf('/') + 1);-->
@@ -25,6 +24,10 @@
             <button class="btn btn-success">Add Comment</button>
         </form>
     </div>
+<!--    <script>-->
+<!--        var name = "{{ user.id }}";-->
+<!--        document.getElementById("auth_user").value = name;-->
+<!--    </script>-->
 
 <br/><br/>
 {% else %}

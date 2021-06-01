@@ -46,6 +46,8 @@ def LikeView(request, pk):
 
 class HomeView(ListView):
     model = Post
+    paginate_by = 4
+    context_object_name = 'posts'
     template_name = 'home.html'
     ordering = ['-created_on']
 
@@ -73,6 +75,9 @@ class MakeCommentView(CreateView):
     model = Comment
     form_class = CommentForm
     template_name = 'comment.html'
+
+    def get_success_url(self):
+        return reverse_lazy('post_detail', kwargs={'pk': self.kwargs['pk']})
 
     def form_valid(self, form):
         form.instance.post_id = self.kwargs['pk']

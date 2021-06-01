@@ -1,10 +1,8 @@
 {% extends 'base.html' %}
 
 {% block title%}
-    {{post.title}}
+{{post.title}}
 {% endblock %}
-
-
 
 
 {% block content %}
@@ -20,35 +18,38 @@
 <!--    <br/><br/>-->
 <!--    {{ post.content|safe }}-->
 
-<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
-        <div class="col p-4 d-flex flex-column position-static">
-            <strong class="d-inline-block mb-2 text-primary">
-                 <small>Posted By:
-                <a href="{% url 'show_profile' post.author.profile.id %}">{{post.author}}</a></small>
-            </strong>
-            <h3 class="mb-0">
-                    {{post.title}}
-            </h3>
-            <div class="mb-1 text-muted">{{post.created_on}}</div>
-                 {% if post.video_file %}
-            <div>
-                  <video width="300px" height="300px" controls>
-                  <source src="{{ post.video_file.url }}" type="video/mp4">
-                 </video>
-                 </div>
-                {% elif post.photo %}
-            <div>
-        <img src="{{ post.photo.url }}" width=400 height=300>
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative container">
+    <div class="col p-4 d-flex flex-column position-static">
+        <strong class="d-inline-block mb-2 text-primary">
+            <small>Posted By:
+                {% if post.author.profile.id %}
+<!--                    Link to profile-->
+                    <a href="{% url 'show_profile' post.author.profile.id %}">{{post.author}}</a>
+                {% else %}
+                    Anonymous
+                {% endif %}
+            </small>
+        </strong>
+        <h3 class="mb-0">
+            {{post.title}}
+        </h3>
+        <div class="mb-1 text-muted">{{post.created_on}}</div>
+        {% if post.video_file %}
+        <div>
+            <video width="300px" height="300px" controls>
+                <source src="{{ post.video_file.url }}" type="video/mp4">
+            </video>
         </div>
-              {% endif %}
+        {% elif post.photo %}
+        <div>
+            <img src="{{ post.photo.url }}" width=400 height=300>
+        </div>
+        {% endif %}
 
-            <p class="card-text mb-auto">
-                 {{ post.content | safe}}
-            </p>
-<!--            <div class="my-2">-->
-<!--            	<a href ="{% url 'post_detail' post.pk %}" role="button" class="btn btn-primary">Continue reading</a>-->
-<!--            </div>-->
-        </div>
+        <p class="card-text mb-auto">
+            {{ post.content | safe}}
+        </p>
+    </div>
 
     <br/><br/>
     <a href="{% url 'home' %}" class="btn btn-secondary">Back</a>
@@ -60,17 +61,19 @@
     <form action="{% url 'like_post' post.pk %}" method="POST">
         {% csrf_token %}
         {% if user.is_authenticated %}
-            {% if liked %}
-            <button type="submit" name="post_id"
-                    value="{{ post.id }}" class="btn btn-danger
-                    btn-sm">Unlike</button>
-            {% else %}
-            <button type="submit" name="post_id"
-                    value="{{ post.id }}" class="btn btn-primary
-                    btn-sm">Like</button>
-            {% endif %}
+        {% if liked %}
+        <button type="submit" name="post_id"
+                value="{{ post.id }}" class="btn btn-danger
+                    btn-sm">Unlike
+        </button>
         {% else %}
-            <small><a href="{% url 'login' %}">Login</a> to like</small>
+        <button type="submit" name="post_id"
+                value="{{ post.id }}" class="btn btn-primary
+                    btn-sm">Like
+        </button>
+        {% endif %}
+        {% else %}
+        <small><a href="{% url 'login' %}">Login</a> to like</small>
         {% endif %}
         - {{total_likes}} Likes
     </form>
@@ -78,44 +81,45 @@
     <br>
 
 
-<br/><br/>
-</div class="container">
+    <br/><br/>
+</div>
 <hr>
+<!-- Comments Form -->
+<a href="{% url 'new-comment' post.pk %}">Add Comment</a>
+<br/><br/>
 <h3>Comments</h3>
 {% if not post.comments.all %}
-    No comments yet ...<a href="{% url 'new-comment' post.pk %}">Add One</a>
+No comments yet ...<a href="{% url 'new-comment' post.pk %}">Add One</a>
 
 <br/><br/>
 
 {% else %}
-     <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
+<div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
     {% for comment in post.comments.all %}
-     <div class="col-md-11 ">
+    <div class="col-md-11 ">
         <strong>
-            <b> {{ comment.name }} </b> at {{ comment.created_on }}
-
+            <b> {{ comment.name }} </b> @ {{ comment.created_on }}
         </strong>
         <br/>
         <div>
-        {{ comment.content }}
+            {{ comment.content }}
         </div>
-         </div>
-       <br/>
-<!--       <a href="{% url 'new-comment' post.pk %}" >Reply</a>-->
-<!--       <br/><br/>-->
-<!--        <br/></br>-->
-<!--           {% for reply in post.comments.replies.all %}-->
-<!--           <strong> replied : {{reply.name}} - {{reply.created_on}} </strong>-->
-<!--             <br>-->
-<!--            {{reply.content}}-->
-<!--            <br>-->
-<!--        {% endfor %}-->
+    </div>
+    <br/>
+    <!--       <a href="{% url 'new-comment' post.pk %}" >Reply</a>-->
+    <!--       <br/><br/>-->
+    <!--        <br/></br>-->
+    <!--           {% for reply in post.comments.replies.all %}-->
+    <!--           <strong> replied : {{reply.name}} - {{reply.created_on}} </strong>-->
+    <!--             <br>-->
+    <!--            {{reply.content}}-->
+    <!--            <br>-->
+    <!--        {% endfor %}-->
     {% endfor %}
-         </div>
+</div>
 
 {% endif%}
 <br/>
-<a href="{% url 'new-comment' post.pk %}" >Add Comment</a>
-<br/><br/>
- </div>
+
+</div>
 {% endblock %}
