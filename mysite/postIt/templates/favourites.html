@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if fav_posts %}
+<h1>Your Favourites</h1>
+
+<ul>
+{% for post in fav_posts %}
+    <li><a href="{% url 'post_detail' post.pk %}">
+        {{post.title}}</a> - {{post.author}} - {{post.created_on}}
+        <br/>
+        {{ post.content|slice:":200"|safe }}
+    </li>
+{% endfor %}
+</ul>
+{% else %}
+    <h2>Go Favourite a post Please</h2>
+{% endif %}
+{% endblock %}

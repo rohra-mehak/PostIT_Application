@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if search_posts %}
+<h1>Your Search Results</h1>
+
+<ul>
+{% for post in search_posts %}
+    <li><a href="{% url 'post_detail' post.pk %}">
+        {{post.title}}</a> - {{post.author}} - {{post.created_on}}
+        <br/>
+        {{ post.content|slice:":200"|safe }}
+    </li>
+{% endfor %}
+</ul>
+{% else %}
+    <h2>Not found  :((, try again  </h2>
+{% endif %}
+{% endblock %}

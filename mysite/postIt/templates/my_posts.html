@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>Posts by you, For you </h1>
+
+
+<ul>
+{% for post in my_post_list %}
+    <li>
+        <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 my-4 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+            <strong class="d-inline-block mb-2 text-primary">
+                 <a href="{% url 'category' post.category %}">{{post.category}}</a>
+            </strong>
+            <h3 class="mb-0">
+                    {{post.title}}
+            </h3>
+            <div class="mb-1 text-muted">{{post.created_on}}</div>
+            <p class="card-text mb-auto">
+                 {{ post.content|slice:":150"|safe }}
+            </p>
+            <br>
+            <div>
+                 <form action="{% url 'delete-post' post.pk %}" method="POST">
+                     {% csrf_token %}
+            <button type="submit" name="post_id"
+                    value="{{ post.id }}" class="btn btn-danger
+                    btn-sm">Delete Post</button>
+                 </form>
+
+                <br>
+
+                   <form action="{% url 'update-post' post.pk %}" method="POST">
+                     {% csrf_token %}
+            <button type="submit" name="post_id"
+                    value="{{ post.id }}" class="btn btn-danger
+                    btn-sm">Update Post</button>
+                 </form>
+                <br>
+<!--             <button> <a href="{% url 'update-post' post.pk %}" >   Update Post  </a></button>-->
+
+<!--                <br>s-->
+<!--                <a href ="{% url 'delete-post' post.pk %}" role="button" class="btn btn-danger">Delete</a>-->
+            </div>
+
+            <div class="my-2">
+            	<a href ="{% url 'post_detail' post.pk %}" role="button" class="btn btn-primary">Continue reading</a>
+            </div>
+        </div>
+        </div>
+<!--        <a href="{% url 'post_detail' post.pk %}">-->
+<!--        {{post.title}}</a> - <a href="{% url 'category' post.category %}">{{post.category}}</a> - {{post.author}} - {{post.created_on}}-->
+<!--        <br/>-->
+<!--        {{ post.content|slice:":150"|safe }}-->
+    </li>
+{% endfor %}
+</ul>
+
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title%}
+    new Comment
+{% endblock %}
+
+
+
+{% block content %}
+
+{% if user.is_authenticated %}
+    <h1>New Comment</h1>
+    <br/><br/>
+    <div class="form-group">
+        <form method="POST">
+            {% csrf_token %}
+             {{ form.as_p }}
+<!--                <script>-->
+<!--               var id = url.substring(url.lastIndexOf('/') + 1);-->
+<!--               document.write(id);-->
+<!--               document.getElementById("my_post_id").value = id;-->
+
+<!--    </script>-->
+            <button class="btn btn-success">Add Comment</button>
+        </form>
+    </div>
+<!--    <script>-->
+<!--        var name = "{{ user.id }}";-->
+<!--        document.getElementById("auth_user").value = name;-->
+<!--    </script>-->
+
+<br/><br/>
+{% else %}
+<p>Go back , Be responsible , Login to Comment </p>
+</p> DONT POST HATEFULL COMMENTS , BE NICE </p>
+{% endif %}
+
+{% endblock %}
